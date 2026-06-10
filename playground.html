@@ -164,6 +164,7 @@
       </div>
       <iframe id="preview"
         title="Resultado"
+        allow="camera; gyroscope; accelerometer; magnetometer; xr-spatial-tracking; fullscreen"
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock"></iframe>
     </section>
   </div>
@@ -174,12 +175,15 @@
       {
         name: "Casa 3D",
         html:
-`<!-- Embed do widget Casa 3D (o que vai no LMS) -->
+`<!-- Embed do widget Casa 3D (o que vai no LMS).
+     O allow="camera" é necessário para o botão "Ver em AR" funcionar. -->
 <iframe
   src="https://matheussma.github.io/wireframe-web3d/"
   width="100%" height="460"
   style="border:0; max-width:760px; border-radius:12px;"
   loading="lazy"
+  allow="camera; gyroscope; accelerometer; magnetometer; xr-spatial-tracking; fullscreen"
+  allowfullscreen
   title="Casa 3D interativa"></iframe>`
       },
       {
