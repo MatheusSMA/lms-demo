@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPlay · Playground de Embed</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --brand: #2563eb;
+      --brand-soft: #dbeafe;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex; align-items: center; gap: 16px;
+      height: 60px; padding: 0 22px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      flex: none;
+    }
+    .brand { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+    .brand .logo { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, #2563eb, #7c3aed); display: grid; place-items: center; color: #fff; }
+    .topbar .spacer { flex: 1; }
+    .topbar a.back { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+    .topbar a.back:hover { color: var(--ink); }
+
+    /* Cabeçalho da página */
+    .head { padding: 22px 26px 6px; }
+    .head h1 { margin: 0 0 4px; font-size: 24px; letter-spacing: -0.02em; }
+    .head p { margin: 0; color: var(--muted); max-width: 80ch; }
+
+    /* Layout editor / preview */
+    .pg {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 16px 26px 26px;
+      min-height: 0;
+    }
+    .pane {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 480px;
+    }
+    .pane-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 600; font-size: 14px;
+    }
+    .pane-head .dot { width: 9px; height: 9px; border-radius: 50%; background: #cbd5e1; }
+    .pane-head .grow { flex: 1; }
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { border-color: #cbd5e1; }
+    .btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .btn.primary:hover { background: #1d4ed8; }
+    .btn.ghost { background: transparent; }
+
+    #editor {
+      flex: 1;
+      border: 0;
+      resize: none;
+      padding: 16px;
+      font-family: "SF Mono", "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #0f172a;
+      background: #0f172a08;
+      outline: none;
+      tab-size: 2;
+    }
+    #preview {
+      flex: 1;
+      border: 0;
+      width: 100%;
+      background: #fff;
+    }
+    .hint { font-size: 12px; color: var(--muted); padding: 8px 16px; border-top: 1px solid var(--line); }
+
+    @media (max-width: 860px) {
+      .pg { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">▶</span> EduPlay</div>
+    <div class="spacer"></div>
+    <a class="back" href="index.html">← Voltar para a aula</a>
+  </header>
+
+  <div class="head">
+    <h1>Playground de Embed</h1>
+    <p>
+      Cole qualquer HTML no editor à esquerda e veja o resultado renderizado ao vivo à direita.
+      Já deixei o snippet do <strong>iframe da Casa 3D</strong> preenchido — clique em
+      <em>Atualizar</em> (ou edite) para ver funcionando.
+    </p>
+  </div>
+
+  <div class="pg">
+    <!-- Editor -->
+    <section class="pane">
+      <div class="pane-head">
+        <span class="dot"></span> HTML
+        <span class="grow"></span>
+        <button class="btn ghost" id="btn-copy">Copiar</button>
+        <button class="btn ghost" id="btn-reset">Exemplo</button>
+        <button class="btn primary" id="btn-run">Atualizar ▶</button>
+      </div>
+      <textarea id="editor" spellcheck="false"></textarea>
+      <div class="hint">Atualiza sozinho enquanto você digita. Suporta scripts e iframes.</div>
+    </section>
+
+    <!-- Preview -->
+    <section class="pane">
+      <div class="pane-head">
+        <span class="dot" style="background:#22c55e"></span> Resultado ao vivo
+      </div>
+      <iframe id="preview"
+        title="Resultado"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock"></iframe>
+    </section>
+  </div>
+
+  <script>
+    const EXEMPLO =
+`<!-- Cole aqui o HTML que quiser. Exemplo: o embed da Casa 3D -->
+<iframe
+  src="https://matheussma.github.io/wireframe-web3d/"
+  width="100%" height="460"
+  style="border:0; max-width:760px; border-radius:12px;"
+  loading="lazy"
+  title="Casa 3D interativa"></iframe>`;
+
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+
+    function render() {
+      preview.srcdoc = editor.value;
+    }
+
+    // Atualização ao vivo (com pequeno debounce)
+    let t;
+    editor.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(render, 350);
+    });
+
+    document.getElementById('btn-run').addEventListener('click', render);
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      editor.value = EXEMPLO;
+      render();
+    });
+    document.getElementById('btn-copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(editor.value);
+        const b = document.getElementById('btn-copy');
+        const old = b.textContent;
+        b.textContent = 'Copiado!';
+        setTimeout(() => (b.textContent = old), 1200);
+      } catch (e) { /* ignore */ }
+    });
+
+    // Inicializa
+    editor.value = EXEMPLO;
+    render();
+  </script>
+</body>
+</html>
