@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPlay · Geometria 3D — Explorando uma casa</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --brand: #2563eb;
+      --brand-soft: #dbeafe;
+      --ok: #16a34a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    /* ---------- Topbar ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      height: 60px;
+      padding: 0 22px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .brand .logo {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: grid; place-items: center;
+      color: #fff; font-size: 16px;
+    }
+    .topbar .search {
+      flex: 1;
+      max-width: 420px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .topbar .spacer { flex: 1; }
+    .topbar .avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      display: grid; place-items: center;
+      color: #fff; font-weight: 700; font-size: 14px;
+    }
+
+    /* ---------- Layout ---------- */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: var(--surface);
+      padding: 20px 14px;
+      min-height: calc(100vh - 60px);
+    }
+    .course-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 8px 6px; }
+    .course-name { font-size: 16px; font-weight: 700; margin: 0 8px 14px; }
+    .progress {
+      margin: 0 8px 18px;
+      font-size: 12px; color: var(--muted);
+    }
+    .progress-bar { height: 7px; background: var(--line); border-radius: 999px; margin-top: 6px; overflow: hidden; }
+    .progress-bar > span { display: block; height: 100%; width: 60%; background: var(--brand); border-radius: 999px; }
+
+    .module { margin-bottom: 14px; }
+    .module-h { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 0 8px; margin-bottom: 6px; }
+    .lesson {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 8px;
+      border-radius: 9px;
+      font-size: 14px;
+      color: #334155;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .lesson:hover { background: var(--bg); }
+    .lesson.active { background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+    .tick { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; flex: none; }
+    .tick.done { background: var(--ok); color: #fff; }
+    .tick.todo { border: 2px solid var(--line); }
+    .tick.curr { border: 2px solid var(--brand); color: var(--brand); }
+
+    /* ---------- Conteúdo ---------- */
+    .content { padding: 28px 34px 60px; }
+    .crumbs { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .crumbs a { color: var(--muted); text-decoration: none; }
+    h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.02em; }
+    .lead { color: var(--muted); margin: 0 0 22px; max-width: 70ch; }
+
+    .activity {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(15, 23, 42, 0.06);
+      margin-bottom: 24px;
+    }
+    .activity-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .activity-head .pill { background: var(--brand-soft); color: var(--brand); font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+    .activity-head .t { font-weight: 600; }
+
+    /* O embed — wrapper mantém proporção e centraliza */
+    .embed-wrap {
+      width: 100%;
+      background: #eef2f7;
+      padding: 18px;
+    }
+    .embed-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 460px;
+      max-width: 760px;
+      margin: 0 auto;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    .instructions { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; max-width: 75ch; }
+    .instructions h2 { font-size: 16px; margin: 0 0 10px; }
+    .instructions ul { margin: 0; padding-left: 20px; color: #334155; }
+    .instructions li { margin-bottom: 6px; }
+
+    .nav-btns { display: flex; justify-content: space-between; gap: 12px; max-width: 75ch; margin-top: 26px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn:hover { border-color: #cbd5e1; }
+    .btn.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .btn.primary:hover { background: #1d4ed8; }
+
+    @media (max-width: 820px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .content { padding: 20px 18px 48px; }
+      .topbar .search { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand"><span class="logo">▶</span> EduPlay</div>
+    <div class="search">Buscar cursos, aulas, materiais…</div>
+    <div class="spacer"></div>
+    <div class="avatar">MS</div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar do curso -->
+    <aside class="sidebar">
+      <p class="course-title">Curso</p>
+      <p class="course-name">Matemática Visual: Geometria 3D</p>
+      <div class="progress">
+        Progresso · 60%
+        <div class="progress-bar"><span></span></div>
+      </div>
+
+      <div class="module">
+        <div class="module-h">Módulo 1 · Sólidos</div>
+        <a class="lesson" href="#"><span class="tick done">✓</span> Introdução aos sólidos</a>
+        <a class="lesson" href="#"><span class="tick done">✓</span> Faces, arestas e vértices</a>
+      </div>
+
+      <div class="module">
+        <div class="module-h">Módulo 2 · Na prática</div>
+        <a class="lesson" href="#"><span class="tick done">✓</span> Planificação</a>
+        <a class="lesson active" href="#"><span class="tick curr">●</span> Explorando uma casa 3D</a>
+        <a class="lesson" href="#"><span class="tick todo"></span> Quiz do módulo</a>
+      </div>
+
+      <div class="module">
+        <div class="module-h">Módulo 3 · Avançado</div>
+        <a class="lesson" href="#"><span class="tick todo"></span> Volume e área</a>
+        <a class="lesson" href="#"><span class="tick todo"></span> Projeto final</a>
+      </div>
+    </aside>
+
+    <!-- Conteúdo da aula -->
+    <main class="content">
+      <nav class="crumbs">
+        <a href="#">Meus cursos</a> ›
+        <a href="#">Geometria 3D</a> ›
+        <span>Explorando uma casa 3D</span>
+      </nav>
+
+      <h1>Explorando uma casa 3D</h1>
+      <p class="lead">
+        Nesta atividade interativa você manipula um modelo tridimensional de uma casa.
+        Gire o objeto, abra a porta e a janela, e observe como as formas geométricas
+        (prisma e pirâmide) se combinam. Use o modo <strong>wireframe</strong> para enxergar
+        as arestas da estrutura.
+      </p>
+
+      <!-- ===== EMBED DO WIDGET 3D ===== -->
+      <section class="activity">
+        <div class="activity-head">
+          <span class="pill">Atividade interativa</span>
+          <span class="t">Modelo 3D · Casa</span>
+        </div>
+        <div class="embed-wrap">
+          <iframe
+            src="https://matheussma.github.io/wireframe-web3d/"
+            title="Casa 3D interativa"
+            loading="lazy"
+            allowfullscreen></iframe>
+        </div>
+      </section>
+      <!-- ===== FIM DO EMBED ===== -->
+
+      <div class="instructions">
+        <h2>O que fazer</h2>
+        <ul>
+          <li>🖱️ <strong>Arraste</strong> com o mouse para girar a casa em qualquer ângulo.</li>
+          <li>🚪 <strong>Clique na porta</strong> e na <strong>janela</strong> para abri-las e fechá-las.</li>
+          <li>🔲 Ative o toggle <strong>Wireframe</strong> para ver só as arestas do modelo.</li>
+          <li>🔄 Ative <strong>Girar sozinho</strong> para a casa rotacionar automaticamente.</li>
+        </ul>
+      </div>
+
+      <div class="nav-btns">
+        <a class="btn" href="#">← Aula anterior</a>
+        <a class="btn primary" href="#">Marcar como concluída ✓</a>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
