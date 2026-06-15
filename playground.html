@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduPlay · Playground de Embed</title>
+  <title>EduPlay · Embed Playground</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -129,15 +129,16 @@
   <header class="topbar">
     <div class="brand"><span class="logo">▶</span> EduPlay</div>
     <div class="spacer"></div>
-    <a class="back" href="index.html">← Voltar para a aula</a>
+    <button class="back" id="btn-lang" style="border:0;background:none;cursor:pointer;font:inherit">🌐 PT-BR</button>
+    <a class="back" href="index.html" data-i18n="back">← Back to lesson</a>
   </header>
 
   <div class="head">
-    <h1>Playground de Embed</h1>
-    <p>
-      Cole qualquer HTML no editor à esquerda e veja o resultado ao vivo à direita.
-      Use os <strong>exemplos</strong> abaixo para testar diferentes tipos de conteúdo —
-      incluindo o embed da <strong>Casa 3D</strong>.
+    <h1 data-i18n="h1">Embed Playground</h1>
+    <p data-i18n="desc">
+      Paste any HTML in the editor on the left and see the live result on the right.
+      Use the <strong>examples</strong> below to test different kinds of content —
+      including the <strong>3D Mascot</strong> embed.
     </p>
   </div>
 
@@ -147,20 +148,20 @@
       <div class="pane-head">
         <span class="dot"></span> HTML
         <span class="grow"></span>
-        <button class="btn ghost" id="btn-copy">Copiar</button>
-        <button class="btn primary" id="btn-run">Atualizar ▶</button>
+        <button class="btn ghost" id="btn-copy">Copy</button>
+        <button class="btn primary" id="btn-run">Update ▶</button>
       </div>
       <div class="examples" id="examples">
-        <span class="lbl">Exemplos:</span>
+        <span class="lbl" data-i18n="examplesLabel">Examples:</span>
       </div>
       <textarea id="editor" spellcheck="false"></textarea>
-      <div class="hint">Atualiza sozinho enquanto você digita. Suporta scripts e iframes.</div>
+      <div class="hint" data-i18n="hint">Updates as you type. Supports scripts and iframes.</div>
     </section>
 
     <!-- Preview -->
     <section class="pane">
       <div class="pane-head">
-        <span class="dot" style="background:#22c55e"></span> Resultado ao vivo
+        <span class="dot" style="background:#22c55e"></span> <span data-i18n="liveResult">Live result</span>
       </div>
       <iframe id="preview"
         title="Resultado"
@@ -170,13 +171,25 @@
   </div>
 
   <script>
-    // ----- Snippets de exemplo -----
+    // ----- i18n da interface -----
+    const UI = {
+      en: { back: '← Back to lesson', h1: 'Embed Playground',
+        desc: 'Paste any HTML in the editor on the left and see the live result on the right. Use the <strong>examples</strong> below to test different kinds of content — including the <strong>3D Mascot</strong> embed.',
+        examplesLabel: 'Examples:', hint: 'Updates as you type. Supports scripts and iframes.', liveResult: 'Live result',
+        copy: 'Copy', copied: 'Copied!', update: 'Update ▶', langBtn: '🌐 PT-BR', docTitle: 'EduPlay · Embed Playground' },
+      pt: { back: '← Voltar para a aula', h1: 'Playground de Embed',
+        desc: 'Cole qualquer HTML no editor à esquerda e veja o resultado ao vivo à direita. Use os <strong>exemplos</strong> abaixo pra testar diferentes tipos de conteúdo — incluindo o embed do <strong>Mascote 3D</strong>.',
+        examplesLabel: 'Exemplos:', hint: 'Atualiza sozinho enquanto você digita. Suporta scripts e iframes.', liveResult: 'Resultado ao vivo',
+        copy: 'Copiar', copied: 'Copiado!', update: 'Atualizar ▶', langBtn: '🌐 EN', docTitle: 'EduPlay · Playground de Embed' }
+    };
+
+    // ----- Snippets de exemplo (nome bilíngue; html com versão PT onde há texto visível) -----
     const EXAMPLES = [
       {
-        name: "Casa 3D",
+        name: { en: '3D Mascot', pt: 'Mascote 3D' },
         html:
-`<!-- Embed do widget Casa 3D (o que vai no LMS).
-     O allow="camera" é necessário para o botão "Ver em AR" funcionar. -->
+`<!-- 3D Mascot widget embed (what goes in the LMS).
+     allow="camera" is required for the "View in AR" button. -->
 <iframe
   src="https://matheussma.github.io/wireframe-web3d/"
   width="100%" height="460"
@@ -184,42 +197,51 @@
   loading="lazy"
   allow="camera; gyroscope; accelerometer; magnetometer; xr-spatial-tracking; fullscreen"
   allowfullscreen
-  title="Casa 3D interativa"></iframe>`
+  title="Interactive 3D mascot"></iframe>`
       },
       {
-        name: "Vídeo (YouTube)",
+        name: { en: 'Video (YouTube)', pt: 'Vídeo (YouTube)' },
         html:
 `<iframe
   width="100%" height="430"
   style="border:0; max-width:760px; border-radius:12px;"
   src="https://www.youtube.com/embed/aqz-KE-bpKQ"
-  title="Vídeo"
+  title="Video"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen></iframe>`
       },
       {
-        name: "Mapa",
+        name: { en: 'Map', pt: 'Mapa' },
         html:
 `<iframe
   width="100%" height="430"
   style="border:0; max-width:760px; border-radius:12px;"
   src="https://www.openstreetmap.org/export/embed.html?bbox=-46.66%2C-23.57%2C-46.62%2C-23.54&layer=mapnik"
-  title="Mapa"></iframe>`
+  title="Map"></iframe>`
       },
       {
-        name: "Card",
+        name: { en: 'Card', pt: 'Card' },
         html:
 `<div style="font-family:system-ui; max-width:340px; margin:28px auto; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08)">
   <div style="height:120px; background:linear-gradient(135deg,#2563eb,#7c3aed)"></div>
   <div style="padding:18px">
-    <h3 style="margin:0 0 6px">Curso de Geometria 3D</h3>
-    <p style="margin:0 0 14px; color:#64748b">Aprenda sólidos, planificações e volumes na prática.</p>
+    <h3 style="margin:0 0 6px">Interactive 3D course</h3>
+    <p style="margin:0 0 14px; color:#64748b">Learn to explore and assemble 3D models hands-on.</p>
+    <button style="background:#2563eb; color:#fff; border:0; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer">Enroll</button>
+  </div>
+</div>`,
+        htmlPt:
+`<div style="font-family:system-ui; max-width:340px; margin:28px auto; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08)">
+  <div style="height:120px; background:linear-gradient(135deg,#2563eb,#7c3aed)"></div>
+  <div style="padding:18px">
+    <h3 style="margin:0 0 6px">Curso 3D Interativo</h3>
+    <p style="margin:0 0 14px; color:#64748b">Aprenda a explorar e montar modelos 3D na prática.</p>
     <button style="background:#2563eb; color:#fff; border:0; padding:10px 16px; border-radius:8px; font-weight:600; cursor:pointer">Matricular</button>
   </div>
 </div>`
       },
       {
-        name: "Animação CSS",
+        name: { en: 'CSS animation', pt: 'Animação CSS' },
         html:
 `<div style="display:grid; place-items:center; height:92vh; background:#0f172a">
   <div class="orb"></div>
@@ -239,8 +261,16 @@
 </style>`
       },
       {
-        name: "Formulário",
+        name: { en: 'Form', pt: 'Formulário' },
         html:
+`<form style="font-family:system-ui; max-width:360px; margin:28px auto; display:grid; gap:12px"
+      onsubmit="alert('Form submitted!'); return false">
+  <h3 style="margin:0">Sign up for the course</h3>
+  <input placeholder="Your name" style="padding:11px; border:1px solid #cbd5e1; border-radius:8px">
+  <input type="email" placeholder="Your email" style="padding:11px; border:1px solid #cbd5e1; border-radius:8px">
+  <button style="background:#16a34a; color:#fff; border:0; padding:12px; border-radius:8px; font-weight:600; cursor:pointer">Send</button>
+</form>`,
+        htmlPt:
 `<form style="font-family:system-ui; max-width:360px; margin:28px auto; display:grid; gap:12px"
       onsubmit="alert('Formulário enviado!'); return false">
   <h3 style="margin:0">Inscreva-se no curso</h3>
@@ -251,49 +281,69 @@
       }
     ];
 
+    let lang = localStorage.getItem('eduplay-lang') || 'en';
+    if (!UI[lang]) lang = 'en';
+
     const editor = document.getElementById('editor');
     const preview = document.getElementById('preview');
     const examplesBar = document.getElementById('examples');
+    let activeIndex = null;
 
     function render() { preview.srcdoc = editor.value; }
-
+    function exHtml(i) { const e = EXAMPLES[i]; return (lang === 'pt' && e.htmlPt) ? e.htmlPt : e.html; }
     function loadExample(i) {
-      editor.value = EXAMPLES[i].html;
+      activeIndex = i;
+      editor.value = exHtml(i);
       render();
-      [...examplesBar.querySelectorAll('.chip')].forEach((c, idx) =>
-        c.classList.toggle('active', idx === i));
+      chipEls.forEach((c, idx) => c.classList.toggle('active', idx === i));
     }
 
     // Cria os chips
-    EXAMPLES.forEach((ex, i) => {
+    const chipEls = EXAMPLES.map((ex, i) => {
       const chip = document.createElement('button');
       chip.className = 'chip';
-      chip.textContent = ex.name;
+      chip.textContent = ex.name[lang];
       chip.addEventListener('click', () => loadExample(i));
       examplesBar.appendChild(chip);
+      return chip;
     });
 
-    // Atualização ao vivo (debounce) + limpa chip ativo ao editar manualmente
     let t;
     editor.addEventListener('input', () => {
-      [...examplesBar.querySelectorAll('.chip')].forEach(c => c.classList.remove('active'));
-      clearTimeout(t);
-      t = setTimeout(render, 350);
+      activeIndex = null;
+      chipEls.forEach(c => c.classList.remove('active'));
+      clearTimeout(t); t = setTimeout(render, 350);
     });
 
     document.getElementById('btn-run').addEventListener('click', render);
     document.getElementById('btn-copy').addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(editor.value);
-        const b = document.getElementById('btn-copy');
-        const old = b.textContent;
-        b.textContent = 'Copiado!';
-        setTimeout(() => (b.textContent = old), 1200);
+        const b = document.getElementById('btn-copy'); const old = b.textContent;
+        b.textContent = UI[lang].copied;
+        setTimeout(() => (b.textContent = UI[lang].copy), 1200);
       } catch (e) { /* ignore */ }
     });
 
-    // Inicializa no primeiro exemplo (Casa 3D)
-    loadExample(0);
+    function applyLang() {
+      const d = UI[lang];
+      document.documentElement.lang = (lang === 'pt' ? 'pt-BR' : 'en');
+      document.title = d.docTitle;
+      document.querySelectorAll('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (v != null) el.innerHTML = v; });
+      document.getElementById('btn-copy').textContent = d.copy;
+      document.getElementById('btn-run').textContent = d.update;
+      document.getElementById('btn-lang').textContent = d.langBtn;
+      chipEls.forEach((c, i) => c.textContent = EXAMPLES[i].name[lang]);
+      if (activeIndex != null) loadExample(activeIndex); // recarrega o exemplo no novo idioma
+    }
+    document.getElementById('btn-lang').addEventListener('click', () => {
+      lang = (lang === 'en' ? 'pt' : 'en');
+      localStorage.setItem('eduplay-lang', lang);
+      applyLang();
+    });
+
+    applyLang();
+    loadExample(0); // começa no Mascote 3D
   </script>
 </body>
 </html>

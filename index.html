@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduPlay · Geometria 3D — Explorando uma casa</title>
+  <title>EduPlay · Interactive 3D — Assemble the Mascot</title>
   <style>
     :root {
       --bg: #f1f5f9;
@@ -197,68 +197,68 @@
   <!-- Topbar -->
   <header class="topbar">
     <div class="brand"><span class="logo">▶</span> EduPlay</div>
-    <div class="search">Buscar cursos, aulas, materiais…</div>
+    <div class="search" data-i18n="search">Search courses, lessons, materials…</div>
     <div class="spacer"></div>
-    <a class="nav-link" href="playground.html">Playground de embed</a>
+    <a class="nav-link" href="playground.html" data-i18n="playground">Embed playground</a>
+    <button class="nav-link" id="btn-lang" style="border:0; cursor:pointer; font-family:inherit">🌐 PT-BR</button>
     <div class="avatar">MS</div>
   </header>
 
   <div class="layout">
     <!-- Sidebar do curso -->
     <aside class="sidebar">
-      <p class="course-title">Curso</p>
-      <p class="course-name">Matemática Visual: Geometria 3D</p>
+      <p class="course-title" data-i18n="courseLabel">Course</p>
+      <p class="course-name" data-i18n="courseName">Interactive 3D: Assemble the Mascot</p>
       <div class="progress">
-        Progresso · 60%
+        <span data-i18n="progress">Progress · 60%</span>
         <div class="progress-bar"><span></span></div>
       </div>
 
       <div class="module">
-        <div class="module-h">Módulo 1 · Sólidos</div>
-        <a class="lesson" href="#"><span class="tick done">✓</span> Introdução aos sólidos</a>
-        <a class="lesson" href="#"><span class="tick done">✓</span> Faces, arestas e vértices</a>
+        <div class="module-h" data-i18n="mod1">Module 1 · Basics</div>
+        <a class="lesson" href="#"><span class="tick done">✓</span> <span data-i18n="l1">Intro to the 3D model</span></a>
+        <a class="lesson" href="#"><span class="tick done">✓</span> <span data-i18n="l2">Parts &amp; topology</span></a>
       </div>
 
       <div class="module">
-        <div class="module-h">Módulo 2 · Na prática</div>
-        <a class="lesson" href="#"><span class="tick done">✓</span> Planificação</a>
-        <a class="lesson active" href="#"><span class="tick curr">●</span> Explorando uma casa 3D</a>
-        <a class="lesson" href="#"><span class="tick todo"></span> Quiz do módulo</a>
+        <div class="module-h" data-i18n="mod2">Module 2 · Hands-on</div>
+        <a class="lesson" href="#"><span class="tick done">✓</span> <span data-i18n="l3">Exploded view</span></a>
+        <a class="lesson active" href="#"><span class="tick curr">●</span> <span data-i18n="l4">Assemble the mascot</span></a>
+        <a class="lesson" href="#"><span class="tick todo"></span> <span data-i18n="l5">Module quiz</span></a>
       </div>
 
       <div class="module">
-        <div class="module-h">Módulo 3 · Avançado</div>
-        <a class="lesson" href="#"><span class="tick todo"></span> Volume e área</a>
-        <a class="lesson" href="#"><span class="tick todo"></span> Projeto final</a>
+        <div class="module-h" data-i18n="mod3">Module 3 · Advanced</div>
+        <a class="lesson" href="#"><span class="tick todo"></span> <span data-i18n="l6">Scanning &amp; optimization</span></a>
+        <a class="lesson" href="#"><span class="tick todo"></span> <span data-i18n="l7">Final project</span></a>
       </div>
     </aside>
 
     <!-- Conteúdo da aula -->
     <main class="content">
       <nav class="crumbs">
-        <a href="#">Meus cursos</a> ›
-        <a href="#">Geometria 3D</a> ›
-        <span>Explorando uma casa 3D</span>
+        <a href="#" data-i18n="crumbHome">My courses</a> ›
+        <a href="#" data-i18n="crumbCourse">Interactive 3D</a> ›
+        <span data-i18n="crumbLesson">Assemble the mascot</span>
       </nav>
 
-      <h1>Explorando uma casa 3D</h1>
-      <p class="lead">
-        Nesta atividade interativa você manipula um modelo tridimensional de uma casa.
-        Gire o objeto, abra a porta e a janela, e observe como as formas geométricas
-        (prisma e pirâmide) se combinam. Use o modo <strong>wireframe</strong> para enxergar
-        as arestas da estrutura.
+      <h1 data-i18n="title">Assemble the mascot</h1>
+      <p class="lead" data-i18n="lead">
+        In this interactive activity you handle a segmented 3D model. Tap the mascot to
+        <strong>explode</strong> it into parts, then drag each piece back into place — it snaps
+        when it gets close. Hold a piece to open <strong>details</strong> about it.
       </p>
 
       <!-- ===== EMBED DO WIDGET 3D ===== -->
       <section class="activity">
         <div class="activity-head">
-          <span class="pill">Atividade interativa</span>
-          <span class="t">Modelo 3D · Casa</span>
+          <span class="pill" data-i18n="pill">Interactive activity</span>
+          <span class="t" data-i18n="activityName">3D model · Mascot</span>
         </div>
         <div class="embed-wrap">
           <iframe
             src="https://matheussma.github.io/wireframe-web3d/"
-            title="Casa 3D interativa"
+            title="Interactive 3D mascot"
             loading="lazy"
             allow="camera; gyroscope; accelerometer; magnetometer; xr-spatial-tracking; fullscreen"
             allowfullscreen></iframe>
@@ -267,20 +267,76 @@
       <!-- ===== FIM DO EMBED ===== -->
 
       <div class="instructions">
-        <h2>O que fazer</h2>
+        <h2 data-i18n="whatTodo">What to do</h2>
         <ul>
-          <li>🖱️ <strong>Arraste</strong> com o mouse para girar a casa em qualquer ângulo.</li>
-          <li>🚪 <strong>Clique na porta</strong> e na <strong>janela</strong> para abri-las e fechá-las.</li>
-          <li>🔲 Ative o toggle <strong>Wireframe</strong> para ver só as arestas do modelo.</li>
-          <li>🔄 Ative <strong>Girar sozinho</strong> para a casa rotacionar automaticamente.</li>
+          <li data-i18n="step1">👆 <strong>Tap</strong> the mascot to explode it into parts.</li>
+          <li data-i18n="step2">🧩 <strong>Drag</strong> each piece back — it snaps when it gets close.</li>
+          <li data-i18n="step3">⏱️ <strong>Hold</strong> a piece for 2s to open its details.</li>
+          <li data-i18n="step4">🔄 Use <strong>Explode / Assemble</strong> to reset.</li>
         </ul>
       </div>
 
       <div class="nav-btns">
-        <a class="btn" href="#">← Aula anterior</a>
-        <a class="btn primary" href="#">Marcar como concluída ✓</a>
+        <a class="btn" href="#" data-i18n="prev">← Previous lesson</a>
+        <a class="btn primary" href="#" data-i18n="done">Mark as complete ✓</a>
       </div>
     </main>
   </div>
+
+  <script>
+    const DICT = {
+      en: {
+        search: 'Search courses, lessons, materials…', playground: 'Embed playground',
+        courseLabel: 'Course', courseName: 'Interactive 3D: Assemble the Mascot', progress: 'Progress · 60%',
+        mod1: 'Module 1 · Basics', l1: 'Intro to the 3D model', l2: 'Parts & topology',
+        mod2: 'Module 2 · Hands-on', l3: 'Exploded view', l4: 'Assemble the mascot', l5: 'Module quiz',
+        mod3: 'Module 3 · Advanced', l6: 'Scanning & optimization', l7: 'Final project',
+        crumbHome: 'My courses', crumbCourse: 'Interactive 3D', crumbLesson: 'Assemble the mascot',
+        title: 'Assemble the mascot',
+        lead: 'In this interactive activity you handle a segmented 3D model. Tap the mascot to <strong>explode</strong> it into parts, then drag each piece back into place — it snaps when it gets close. Hold a piece to open <strong>details</strong> about it.',
+        pill: 'Interactive activity', activityName: '3D model · Mascot',
+        whatTodo: 'What to do',
+        step1: '👆 <strong>Tap</strong> the mascot to explode it into parts.',
+        step2: '🧩 <strong>Drag</strong> each piece back — it snaps when it gets close.',
+        step3: '⏱️ <strong>Hold</strong> a piece for 2s to open its details.',
+        step4: '🔄 Use <strong>Explode / Assemble</strong> to reset.',
+        prev: '← Previous lesson', done: 'Mark as complete ✓', langBtn: '🌐 PT-BR', docTitle: 'EduPlay · Interactive 3D — Assemble the Mascot'
+      },
+      pt: {
+        search: 'Buscar cursos, aulas, materiais…', playground: 'Playground de embed',
+        courseLabel: 'Curso', courseName: '3D Interativo: Monte o Mascote', progress: 'Progresso · 60%',
+        mod1: 'Módulo 1 · Básico', l1: 'Introdução ao modelo 3D', l2: 'Partes e topologia',
+        mod2: 'Módulo 2 · Na prática', l3: 'Vista explodida', l4: 'Montar o mascote', l5: 'Quiz do módulo',
+        mod3: 'Módulo 3 · Avançado', l6: 'Escaneamento e otimização', l7: 'Projeto final',
+        crumbHome: 'Meus cursos', crumbCourse: '3D Interativo', crumbLesson: 'Montar o mascote',
+        title: 'Montar o mascote',
+        lead: 'Nesta atividade interativa você manipula um modelo 3D segmentado. Toque no mascote pra <strong>explodir</strong> em peças e arraste cada uma de volta — ela encaixa ao chegar perto. Segure uma peça pra abrir os <strong>detalhes</strong> dela.',
+        pill: 'Atividade interativa', activityName: 'Modelo 3D · Mascote',
+        whatTodo: 'O que fazer',
+        step1: '👆 <strong>Toque</strong> no mascote pra explodir em peças.',
+        step2: '🧩 <strong>Arraste</strong> cada peça de volta — encaixa ao chegar perto.',
+        step3: '⏱️ <strong>Segure</strong> uma peça por 2s pra abrir os detalhes.',
+        step4: '🔄 Use <strong>Explodir / Montar</strong> pra reiniciar.',
+        prev: '← Aula anterior', done: 'Marcar como concluída ✓', langBtn: '🌐 EN', docTitle: 'EduPlay · 3D Interativo — Monte o Mascote'
+      }
+    };
+    let lang = localStorage.getItem('eduplay-lang') || 'en';
+    if (!DICT[lang]) lang = 'en';
+    function applyLang() {
+      const d = DICT[lang];
+      document.documentElement.lang = (lang === 'pt' ? 'pt-BR' : 'en');
+      document.title = d.docTitle;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = d[el.dataset.i18n]; if (v != null) el.innerHTML = v;
+      });
+      document.getElementById('btn-lang').textContent = d.langBtn;
+    }
+    document.getElementById('btn-lang').addEventListener('click', () => {
+      lang = (lang === 'en' ? 'pt' : 'en');
+      localStorage.setItem('eduplay-lang', lang);
+      applyLang();
+    });
+    applyLang();
+  </script>
 </body>
 </html>
